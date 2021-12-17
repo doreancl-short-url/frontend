@@ -1,32 +1,34 @@
-import Image from 'next/image'
+import cn from 'classnames'
 import Link from 'next/link'
-import cn from "classnames";
 import {FunctionComponent} from "react";
 
-const CoverImage: FunctionComponent<{ title: string, coverImage: string, slug?: string }> =
-  ({title, coverImage, slug}) => {
-    const image = (
-      <Image
-        width={2000}
-        height={1000}
-        alt={`Cover Image for ${title}`}
-        src={coverImage}
-        className={cn('shadow-small', {
-          'hover:shadow-medium transition-shadow duration-200': slug,
-        })}
-      />
-    )
+type Props = {
+  title: string
+  src: string
+  slug?: string
+}
 
-    return (
-      <div className="sm:mx-0">
-        {slug ? (
-          <Link href={`/posts/${slug}`}>
-            <a aria-label={title}>{image}</a>
-          </Link>
-        ) : (
-          image
-        )}
-      </div>
-    )
-  };
+const CoverImage: FunctionComponent<Props> = ({title, src, slug}: Props) => {
+  const image = (
+    <img
+      src={src}
+      alt={`Cover Image for ${title}`}
+      className={cn('shadow-sm', {
+        'hover:shadow-lg transition-shadow duration-200': slug,
+      })}
+    />
+  )
+  return (
+    <div className="sm:mx-0">
+      {slug ? (
+        <Link as={`/posts/${slug}`} href="/posts/[slug]">
+          <a aria-label={title}>{image}</a>
+        </Link>
+      ) : (
+        image
+      )}
+    </div>
+  )
+}
+
 export default CoverImage

@@ -1,4 +1,5 @@
 import {Recipe} from "../types/types";
+import {emitter} from "next/client";
 
 const API_URL = "http://localhost:3000"
 
@@ -62,12 +63,13 @@ export const getAllPostsForHome = async (): Promise<(Recipe[] | any)[]> => {
 export const getPostAndMorePosts = async (slug: string) => {
   const post = await getOnePost(slug)
   const [data, err] = await getAllPostsForHome();
-  return data.slice(0, 2).push(post);
+  const endData = data.slice(0, 2)
+  return [post, endData];
 }
 
 export async function getAllPostsWithSlug() {
-  const data: any[] = await getAllPostsForHome();
-  const newData = data.map(cat => {
+  const [data, err]: any[] = await getAllPostsForHome();
+  const newData = data.map((cat: Recipe) => {
     return {slug: cat._id};
   })
   return newData

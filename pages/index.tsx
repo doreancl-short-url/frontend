@@ -10,7 +10,6 @@ import {Recipe} from "../types/types"
 import {FunctionComponent} from "react";
 
 const Home: FunctionComponent<{ allCats: Recipe[] }> = ({allCats}) => {
-
   const heroPost = allCats[0]
   const morePosts = allCats.slice(1)
 
@@ -40,7 +39,7 @@ const Home: FunctionComponent<{ allCats: Recipe[] }> = ({allCats}) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const allCats: Recipe[] = await getAllPostsForHome()
+  const [allCats, err] = await getAllPostsForHome()
   return {
     props: {allCats},
   }

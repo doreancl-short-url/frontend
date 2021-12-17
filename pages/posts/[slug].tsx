@@ -9,11 +9,17 @@ import MoreStories from "../../components/more-stories";
 import SectionSeparator from "../../components/section-separator";
 import {FunctionComponent} from "react";
 import {Recipe} from "../../types/types";
-import {GetStaticProps} from "next";
+import {GetStaticPaths, GetStaticProps} from "next";
 
-const Post: FunctionComponent<{ posts: Recipe[] }> = ({posts}) => {
-  const post = posts[0]
-  const morePosts = posts.slice(1)
+const Post: FunctionComponent<{
+  params: any,
+  post: Recipe,
+  morePosts: Recipe[]
+}> = ({params, post, morePosts}) => {
+  if (undefined === post) {
+    console.log('uuuuuundefined', params, post, morePosts)
+    return <></>
+  }
 
   return (
     <Layout>
@@ -35,7 +41,6 @@ const Post: FunctionComponent<{ posts: Recipe[] }> = ({posts}) => {
             <footer>
             </footer>
           </article>
-
           <SectionSeparator/>
           {morePosts.length > 0 && <MoreStories posts={morePosts}/>}
         </>
@@ -46,21 +51,21 @@ const Post: FunctionComponent<{ posts: Recipe[] }> = ({posts}) => {
 export default Post
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-  const data = await getPostAndMorePosts(params?.slug as string)
-
+  const [data, moreData] = await getPostAndMorePosts(params?.slug as string)
   return {
     props: {
-      posts: data,
+      params,
+      post: data,
+      morePosts: moreData,
     },
   }
 };
 
-
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const allPosts = await getAllPostsWithSlug()
 
   return {
-    paths: allPosts.map((node) => `/posts/${node.slug}`) || [],
-    fallback: true,
+    paths: allPosts.map((node: Recipe) => `/posts/${node.slug}`) || [],
+    fallback: false,
   }
-}
+};
