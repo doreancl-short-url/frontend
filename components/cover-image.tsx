@@ -1,6 +1,5 @@
 import cn from 'classnames'
 import Link from 'next/link'
-import {FunctionComponent} from "react";
 
 type Props = {
   title: string
@@ -8,7 +7,7 @@ type Props = {
   slug?: string
 }
 
-const CoverImage: FunctionComponent<Props> = ({title, src, slug}: Props) => {
+const CoverImage = ({ title, src, slug }: Props) => {
   const image = (
     <img
       src={src}

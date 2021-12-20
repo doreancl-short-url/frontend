@@ -8,13 +8,13 @@ import PostBody from "../../components/post-body";
 import MoreStories from "../../components/more-stories";
 import SectionSeparator from "../../components/section-separator";
 import {FunctionComponent} from "react";
-import {Recipe} from "../../types/types";
 import {GetStaticPaths, GetStaticProps} from "next";
+import PostType from "../../types/post";
 
 const Post: FunctionComponent<{
   params: any,
-  post: Recipe,
-  morePosts: Recipe[]
+  post: PostType,
+  morePosts: PostType[]
 }> = ({params, post, morePosts}) => {
   if (undefined === post) {
     console.log('uuuuuundefined', params, post, morePosts)
@@ -35,7 +35,6 @@ const Post: FunctionComponent<{
               coverImage={post.featuredImage}
               date={post.date}
               author={post.author}
-              categories={post.categories}
             />
             <PostBody content={post.content}/>
             <footer>
@@ -65,7 +64,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const allPosts = await getAllPostsWithSlug()
 
   return {
-    paths: allPosts.map((node: Recipe) => `/posts/${node.slug}`) || [],
+    paths: allPosts.map((node: PostType) => `/posts/${node.slug}`) || [],
     fallback: false,
   }
 };

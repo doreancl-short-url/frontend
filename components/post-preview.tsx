@@ -1,41 +1,43 @@
-import Avatar from '../components/avatar'
-import Date from '../components/date'
+import Avatar from './avatar'
+import DateFormatter from './date-formatter'
 import CoverImage from './cover-image'
 import Link from 'next/link'
-import {FunctionComponent} from "react";
-import {Author} from "../types/types";
+import Author from '../types/author'
 
-const PostPreview: FunctionComponent<{
-  title: string,
-  coverImage: string,
-  date: string,
-  excerpt: string,
-  author: Author,
+type Props = {
+  title: string
+  coverImage: string
+  date: string
+  excerpt: string
+  author: Author
   slug: string
-}> =
-  ({title, coverImage, date, excerpt, author, slug}) => (
+}
+
+const PostPreview = ({
+                       title,
+                       coverImage,
+                       date,
+                       excerpt,
+                       author,
+                       slug,
+                     }: Props) => {
+  return (
     <div>
       <div className="mb-5">
-        {coverImage && (
-          <CoverImage title={title} src={coverImage} slug={slug}/>
-        )}
+        <CoverImage slug={slug} title={title} src={coverImage}/>
       </div>
       <h3 className="text-3xl mb-3 leading-snug">
-        <Link href={`/posts/${slug}`}>
-          <a
-            className="hover:underline"
-            dangerouslySetInnerHTML={{__html: title}}
-          ></a>
+        <Link as={`/posts/${slug}`} href="/posts/[slug]">
+          <a className="hover:underline">{title}</a>
         </Link>
       </h3>
       <div className="text-lg mb-4">
-        <Date dateString={date}/>
+        <DateFormatter dateString={date}/>
       </div>
-      <div
-        className="text-lg leading-relaxed mb-4"
-        dangerouslySetInnerHTML={{__html: excerpt}}
-      />
-      <Avatar author={author}/>
+      <p className="text-lg leading-relaxed mb-4">{excerpt}</p>
+      <Avatar name={author.name} picture={author.picture}/>
     </div>
-  );
+  )
+}
+
 export default PostPreview

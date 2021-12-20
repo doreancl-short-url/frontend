@@ -1,9 +1,8 @@
-import {Recipe} from "../types/types";
-import {emitter} from "next/client";
+import PostType from "../types/post";
 
 const API_URL = "http://localhost:3000"
 
-export const getOnePost = async (slug: any): Promise<Recipe[] | { notFound: true, }> => {
+export const getOnePost = async (slug: any): Promise<PostType[] | { notFound: true, }> => {
   const res = await fetch(`${API_URL}/cats/${slug}`)
   const data: any = await res.json()
   if (!data) {
@@ -31,7 +30,7 @@ export const getOnePost = async (slug: any): Promise<Recipe[] | { notFound: true
 }
 
 
-export const getAllPostsForHome = async (): Promise<(Recipe[] | any)[]> => {
+export const getAllPosts = async (_no?: string[] | undefined): Promise<(PostType[] | any)[]> => {
   const res = await fetch(`${API_URL}/cats`)
   const data: any[] = await res.json()
   if (!data) {
@@ -44,6 +43,7 @@ export const getAllPostsForHome = async (): Promise<(Recipe[] | any)[]> => {
         firstName: "Juan",
         lastName: "Perez",
         name: 'juanito',
+        picture: 'https://secure.gravatar.com/avatar/74b910687d528fef0dca15271e65d3da?s=96&d=mm&r=g',
         avatar: {
           url: 'https://secure.gravatar.com/avatar/74b910687d528fef0dca15271e65d3da?s=96&d=mm&r=g'
         },
@@ -52,6 +52,7 @@ export const getAllPostsForHome = async (): Promise<(Recipe[] | any)[]> => {
       categories: [{name: 'no categoria'}],
       content: 'too el chorizo',
       featuredImage: 'https://vercel.wpengine.com/wp-content/uploads/2020/05/cover5.jpg',
+      coverImage: 'https://vercel.wpengine.com/wp-content/uploads/2020/05/cover5.jpg',
       slug: cat._id,
       ...cat
     }
@@ -62,14 +63,14 @@ export const getAllPostsForHome = async (): Promise<(Recipe[] | any)[]> => {
 
 export const getPostAndMorePosts = async (slug: string) => {
   const post = await getOnePost(slug)
-  const [data, err] = await getAllPostsForHome();
+  const [data, err] = await getAllPosts();
   const endData = data.slice(0, 2)
   return [post, endData];
 }
 
 export async function getAllPostsWithSlug() {
-  const [data, err]: any[] = await getAllPostsForHome();
-  const newData = data.map((cat: Recipe) => {
+  const [data, err]: any[] = await getAllPosts();
+  const newData = data.map((cat: PostType) => {
     return {slug: cat._id};
   })
   return newData

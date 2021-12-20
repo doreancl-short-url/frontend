@@ -1,4 +1,6 @@
-export type Author = {
+import Author from "./author";
+
+export type Author2 = {
   firstName: string,
   lastName: string,
   name: string,
