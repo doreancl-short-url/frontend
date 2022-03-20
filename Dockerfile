@@ -1,12 +1,14 @@
 FROM node:alpine
 
 #copy source
-COPY . /app
+VOLUME ["/code"]
+WORKDIR /code
 
 # Install deps
-RUN cd /app &&  npm install
+COPY package.json .
+RUN npm install
 
 # Build
-RUN npm run build
+#RUN npm run build
 
-ENTRYPOINT [ "npm", "run", "start" ]
+#ENTRYPOINT [ "npm", "run", "dev" ]
