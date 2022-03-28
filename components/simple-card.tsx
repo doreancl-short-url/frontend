@@ -1,4 +1,9 @@
-export function SimpleCard({number, text}) {
+type Props = {
+  number: number,
+  text: string,
+}
+
+export function SimpleCard({number, text}: Props) {
   return <div className="w-full px-6 sm:w-1/2 xl:w-1/3">
     <div className="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
       <div className="p-3 bg-indigo-600 bg-opacity-75 rounded-full">

@@ -1,4 +1,12 @@
-export function LinkFormInput({label, name, value}) {
+import Post from "./[slug]";
+
+type Props = {
+  label: string,
+  name: string,
+  value: any,
+}
+
+const LinkFormInput = ({label, name, value}: Props) => {
   return <div>
     <label className="text-gray-700" htmlFor="username">{label}</label>
     <input
@@ -8,3 +16,4 @@ export function LinkFormInput({label, name, value}) {
       defaultValue={value}/>
   </div>;
 }
+export default LinkFormInput

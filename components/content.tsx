@@ -1,6 +1,10 @@
 import {TopNav} from "./top-nav";
 
-export function Content({children}) {
+type Props = {
+  children: React.ReactNode
+}
+
+export function Content({children}: Props) {
   return <div id="app">
     <div className="flex h-screen bg-gray-200 font-roboto">
       <div className="flex-1 flex flex-col overflow-hidden">

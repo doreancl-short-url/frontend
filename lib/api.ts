@@ -1,12 +1,13 @@
+import {LinkType} from "../types/types";
+
 if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
   require('../mocks')
 }
-import PostType from "../types/post";
 
-const API_URL = "http://host.docker.internal:8080"
+const API_URL = "https://backend-646po5jxfa-uc.a.run.app"
 
-export const getOnePost = async (slug: any): Promise<PostType[] | { notFound: true, }> => {
-  const res = await fetch(`${API_URL}/link/${slug}`)
+export const getOnePost = async (slug: any): Promise<LinkType[] | { notFound: true, }> => {
+  const res = await fetch(`${API_URL}/links/${slug}`)
   const data: any = await res.json()
   if (!data) {
     return {
@@ -17,8 +18,8 @@ export const getOnePost = async (slug: any): Promise<PostType[] | { notFound: tr
 }
 
 
-export const getAllPosts = async (_no?: string[] | undefined): Promise<(PostType[] | any)[]> => {
-  const res = await fetch(`${API_URL}/link/`)
+export const getAllPosts = async (_no?: string[] | undefined): Promise<(LinkType[] | any)[]> => {
+  const res = await fetch(`${API_URL}/links/`)
   const dataArray: any[] = await res.json()
 
   if (!dataArray) {
@@ -28,8 +29,20 @@ export const getAllPosts = async (_no?: string[] | undefined): Promise<(PostType
   return [dataArray, null]
 };
 
-export const putLink = async (id, lynkPayload): Promise<(PostType[] | any)[]> => {
-  const res = await fetch(`${API_URL}/link/${id}`, {
+export const getAllStats = async (_no?: string[] | undefined): Promise<(LinkType[] | any)[]> => {
+  const res = await fetch(`${API_URL}/stats/`)
+  const dataArray: any[] = await res.json()
+
+  if (!dataArray) {
+    return [null, {notFound: true,}]
+  }
+
+  return [dataArray, null]
+};
+
+
+export const putLink = async (id: string, lynkPayload: any): Promise<(LinkType[] | any)[]> => {
+  const res = await fetch(`${API_URL}/links/${id}`, {
     body: lynkPayload,
     headers: {
       'Content-Type': 'application/json',
@@ -45,8 +58,8 @@ export const putLink = async (id, lynkPayload): Promise<(PostType[] | any)[]> =>
   return [updatedLink, null]
 };
 
-export const postLink = async (lynkPayload): Promise<(PostType[] | any)[]> => {
-  const res = await fetch(`${API_URL}/link/`, {
+export const postLink = async (lynkPayload: any): Promise<(LinkType[] | any)[]> => {
+  const res = await fetch(`${API_URL}/links/`, {
     body: lynkPayload,
     headers: {
       'Content-Type': 'application/json',
@@ -69,10 +82,7 @@ export const getPostAndMorePosts = async (slug: string) => {
   return [post, endData];
 }
 
-export async function getAllPostsWithSlug() {
+export async function getAllPostsWithSlug(): Promise<LinkType[]> {
   const [data, err]: any[] = await getAllPosts();
-  const newData = data.map((entity) => {
-    return {id: entity.id};
-  })
-  return newData
+  return data
 }

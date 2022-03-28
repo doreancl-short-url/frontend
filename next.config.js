@@ -7,4 +7,7 @@ module.exports = {
       'vercel.wpengine.com'
     ],
   },
+  experimental: {
+    outputStandalone: true,
+  },
 }

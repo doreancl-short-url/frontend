@@ -1,12 +1,18 @@
-import {getAllPosts} from '../lib/api'
+import {getAllPosts, getAllStats} from '../lib/api'
 import {Content} from "../components/content";
 import {Dashboard} from "../components/dashboard";
+import {LinkType, StatType} from "../types/types";
 
-const Index = ({allLinks}) => {
+type Props = {
+  allLinks: LinkType[],
+  allStats: StatType[],
+}
+
+const Index = ({allLinks, allStats}: Props) => {
   return (
     <>
       <Content>
-        <Dashboard links={allLinks}/>
+        <Dashboard links={allLinks} stats={allStats}/>
       </Content>
     </>
   )
@@ -15,9 +21,9 @@ const Index = ({allLinks}) => {
 export default Index
 
 export const getStaticProps = async () => {
-  console.log({NEXT_PUBLIC_API_MOCKING: process.env.NEXT_PUBLIC_API_MOCKING})
-  const [allLinks, err] = await getAllPosts([])
+  const [allLinks, err1] = await getAllPosts([])
+  const [allStats, err2] = await getAllStats([])
   return {
-    props: {allLinks},
+    props: {allLinks, allStats},
   }
 }

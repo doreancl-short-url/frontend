@@ -1,24 +1,15 @@
-import Author from "./author";
-
-export type Author2 = {
-  firstName: string,
-  lastName: string,
-  name: string,
-  avatar: {
-    url: string
-  },
-}
-export type Category = {
-  name: string
-}
-export type Recipe = {
-  _id: string,
-  excerpt: string,
-  date: string,
-  author: Author,
+export type LinkType = {
+  _id?: string,
   title: string,
-  categories: Category[],
-  content: string,
-  featuredImage: string,
-  slug: string,
+  link: string,
+  long_url: string,
+  is_active: boolean,
+  createdAt: string,
+}
+
+export type StatType = {
+  _id: string,
+  link: string,
+  count: number,
+  time: string,
 }
