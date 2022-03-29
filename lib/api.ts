@@ -1,11 +1,11 @@
 import {LinkType} from "../types/types";
+import {StatusCodes,} from 'http-status-codes';
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
   require('../mocks')
 }
 
-const API_URL = "https://backend-646po5jxfa-uc.a.run.app"
-
+const API_URL = process.env.NEXT_PUBLIC_RECIPES_API_URL;
 export const getOnePost = async (slug: any): Promise<LinkType[] | { notFound: true, }> => {
   const res = await fetch(`${API_URL}/links/${slug}`)
   const data: any = await res.json()
@@ -19,14 +19,20 @@ export const getOnePost = async (slug: any): Promise<LinkType[] | { notFound: tr
 
 
 export const getAllPosts = async (_no?: string[] | undefined): Promise<(LinkType[] | any)[]> => {
-  const res = await fetch(`${API_URL}/links/`)
-  const dataArray: any[] = await res.json()
+  try {
+    const res = await fetch(`${API_URL}/links/`)
+    const dataArray: any[] = await res.json()
 
-  if (!dataArray) {
-    return [null, {notFound: true,}]
+    if (!dataArray) {
+      return [null, {notFound: true,}]
+    }
+
+    return [dataArray, null]
+  } catch (e) {
+    console.log(e)
+    return [[], {notFound: true,}]
   }
 
-  return [dataArray, null]
 };
 
 export const getAllStats = async (_no?: string[] | undefined): Promise<(LinkType[] | any)[]> => {
@@ -40,8 +46,7 @@ export const getAllStats = async (_no?: string[] | undefined): Promise<(LinkType
   return [dataArray, null]
 };
 
-
-export const putLink = async (id: string, lynkPayload: any): Promise<(LinkType[] | any)[]> => {
+export const putLink = async (id: any, lynkPayload: any): Promise<(LinkType[] | any)[]> => {
   const res = await fetch(`${API_URL}/links/${id}`, {
     body: lynkPayload,
     headers: {
@@ -49,13 +54,13 @@ export const putLink = async (id: string, lynkPayload: any): Promise<(LinkType[]
     },
     method: 'PUT',
   })
-  const updatedLink = await res.json()
+  const newLink = await res.json()
 
-  if (!updatedLink) {
+  if (!newLink) {
     return [null, {notFound: true,}]
   }
 
-  return [updatedLink, null]
+  return [newLink, null]
 };
 
 export const postLink = async (lynkPayload: any): Promise<(LinkType[] | any)[]> => {
@@ -74,6 +79,20 @@ export const postLink = async (lynkPayload: any): Promise<(LinkType[] | any)[]> 
 
   return [newLink, null]
 };
+
+export const deleteLink = async (id: string) => {
+  const res = await fetch(`${API_URL}/links/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'DELETE',
+  })
+  if (res.status != StatusCodes.OK) {
+    return [{}, {notFound: true,}]
+  }
+  return [true, null]
+};
+
 
 export const getPostAndMorePosts = async (slug: string) => {
   const post = await getOnePost(slug)

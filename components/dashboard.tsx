@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import {Line} from 'react-chartjs-2';
 import {LinkType, StatType} from "../types/types";
+import Link from "next/link";
 
 ChartJS.register(
   CategoryScale,
@@ -97,13 +98,11 @@ export function Dashboard(props: { links: LinkType[], stats: StatType[] }) {
         <SimpleCard number={totalClicks} text={"Total Clics"}/>
       </div>
     </div>
-
     <div className="mt-4">
       <div className="flex flex-wrap -mx-6">
         <div className="w-full px-6 sm:w-1/2 xl:w-1/3">
           <div className="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
             <div className="p-3 bg-indigo-600 bg-opacity-75 rounded-full">
-
             </div>
             <div className="mx-5">
               <Line options={options} data={data}/>
@@ -112,11 +111,29 @@ export function Dashboard(props: { links: LinkType[], stats: StatType[] }) {
         </div>
       </div>
     </div>
-
-
     <div className="mt-8"/>
     <div className="flex flex-col mt-8">
       <div className="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+        <div className="mb-5">
+          <h2 className="text-xl font-semibold leading-tight text-gray-700">Users</h2>
+          <div className="flex flex-col mt-3 sm:flex-row justify-between">
+            <div className="flex">
+              <div className="relative">
+              </div>
+              <div className="relative">
+                <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+                </div>
+              </div>
+            </div>
+            <div className="relative block mt-2 sm:mt-0">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+              </span>
+              <Link as={`/create/`} href="/new">
+                <button className="px-4 py-2 text-gray-200 bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700"> Crear </button>
+              </Link>
+            </div>
+          </div>
+        </div>
         <LinksTable links={props.links}/>
       </div>
     </div>
