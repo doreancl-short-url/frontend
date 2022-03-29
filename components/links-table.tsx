@@ -39,10 +39,10 @@ export function LinksTable({links}: Props) {
                   </span>
                   <div
                     className="w-32 pl-10 pr-4 text-indigo-600 border-gray-200 rounded-md sm:w-64 focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
-                      <a
-                        href={`${API_URL}/links/redirect/${link.link}`}
-                        target="_blank"
-                        className="text-indigo-600 hover:text-indigo-900" rel="noreferrer">redirect/{link.link}</a>
+                    <a
+                      href={`${API_URL}/links/redirect/${link.link}`}
+                      target="_blank"
+                      className="text-indigo-600 hover:text-indigo-900" rel="noreferrer">redirect/{link.link}</a>
                   </div>
                 </div>
               </div>
@@ -56,9 +56,10 @@ export function LinksTable({links}: Props) {
                   </span>
               <div
                 className="w-32 pl-10 pr-4 text-gray-500 border-gray-200 rounded-md sm:w-64 focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
-                <Link as={`${API_URL}/links/redirect/${link.link}`} href="`${API_URL}/links/redirect/${link.link}`">
-                  <a className="text-gray-500 hover:text-indigo-900">{link.long_url}</a>
-                </Link>
+                <a
+                  href={link.long_url}
+                  target="_blank"
+                  className="text-gray-500 hover:text-indigo-900" rel="noreferrer">{link.long_url}</a>
               </div>
             </div>
           </td>

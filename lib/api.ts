@@ -6,6 +6,7 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
 }
 
 const API_URL = process.env.NEXT_PUBLIC_RECIPES_API_URL;
+console.log({API_URL})
 export const getOnePost = async (slug: any): Promise<LinkType[] | { notFound: true, }> => {
   const res = await fetch(`${API_URL}/links/${slug}`)
   const data: any = await res.json()
@@ -96,12 +97,12 @@ export const deleteLink = async (id: string) => {
 
 export const getPostAndMorePosts = async (slug: string) => {
   const post = await getOnePost(slug)
-  const [data, err] = await getAllPosts();
+  const [data] = await getAllPosts();
   const endData = data.slice(0, 2)
   return [post, endData];
 }
 
 export async function getAllPostsWithSlug(): Promise<LinkType[]> {
-  const [data, err]: any[] = await getAllPosts();
+  const [data]: any[] = await getAllPosts();
   return data
 }

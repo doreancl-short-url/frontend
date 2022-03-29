@@ -27,33 +27,6 @@ const Form = ({formId, linkForm, forNewLink = true}: Props) => {
   })
 
   /* The PUT method edits an existing entry in the mongodb database. */
-  const putDataa = async (link: LinkType) => {
-    const {id} = router.query
-
-    try {
-      const res = await fetch(`/api/pets/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: contentType,
-          'Content-Type': contentType,
-        },
-        body: JSON.stringify(link),
-      })
-
-      // Throw error with status code in case Fetch API req failed
-      if (!res.ok) {
-        throw new Error(res.status + '')
-      }
-
-      const {data} = await res.json()
-
-      mutate(`/api/pets/${id}`, data, false) // Update the local data without a revalidation
-      router.push('/')
-    } catch (error) {
-      setMessage('Failed to update pet')
-    }
-  }
-
   const putData = async (link: LinkType) => {
     try {
       const {slug} = router.query
@@ -102,7 +75,6 @@ const Form = ({formId, linkForm, forNewLink = true}: Props) => {
   const handleSubmit = (e: any) => {
     e.preventDefault()
     const errs = formValidate()
-    console.log(errs)
     if (Object.keys(errs).length === 0) {
       forNewLink ? postData(link) : putData(link)
     } else {
@@ -128,7 +100,7 @@ const Form = ({formId, linkForm, forNewLink = true}: Props) => {
           <LinkFormInput onChange={handleChange} label={'Long Url'} name={'long_url'} value={link.long_url}/>
         </div>
         <div className="flex justify-between mt-4">
-          <Link as={`/`} href="/">
+          <Link as={`/`} href="/" passHref>
             <button className="px-4 py-2 text-gray-200 bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
               Volver
             </button>

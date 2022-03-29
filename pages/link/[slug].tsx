@@ -56,7 +56,6 @@ export default UpdateLink
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const [data] = await getPostAndMorePosts(params?.slug as string)
-  console.log({params}, data)
   return {
     props: {
       slug: params?.slug,
@@ -67,9 +66,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const allPosts = await getAllPostsWithSlug()
-  const res = {
+  return {
     paths: allPosts.map((link: LinkType) => `/link/${link._id}`) || [],
     fallback: false,
   }
-  return res
 };

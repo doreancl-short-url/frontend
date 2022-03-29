@@ -4,7 +4,8 @@ module.exports = {
   images: {
     domains: [
       'secure.gravatar.com',
-      'vercel.wpengine.com'
+      'vercel.wpengine.com',
+      'img.icons8.com',
     ],
   },
   experimental: {

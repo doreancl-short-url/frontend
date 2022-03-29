@@ -61,7 +61,7 @@ export function Dashboard(props: { links: LinkType[], stats: StatType[] }) {
   let dataset: any = {};
 
   let totalClicks = 0;
-  const dataTemplate = labels.map((value) => null);
+  const dataTemplate = labels.map(() => null);
 
   for (const statsExampleKey in props.stats) {
     const statExample = props.stats[statsExampleKey];
@@ -128,8 +128,10 @@ export function Dashboard(props: { links: LinkType[], stats: StatType[] }) {
             <div className="relative block mt-2 sm:mt-0">
               <span className="absolute inset-y-0 left-0 flex items-center pl-2">
               </span>
-              <Link as={`/create/`} href="/new">
-                <button className="px-4 py-2 text-gray-200 bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700"> Crear </button>
+              <Link as={`/create/`} href="/create" passHref>
+                <button
+                  className="px-4 py-2 text-gray-200 bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700"> Crear
+                </button>
               </Link>
             </div>
           </div>
