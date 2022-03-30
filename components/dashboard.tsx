@@ -26,7 +26,7 @@ ChartJS.register(
 );
 
 export const options = {
-  responsive: true,
+  responsive: false,
   plugins: {
     legend: {
       position: 'top' as const,
@@ -94,32 +94,27 @@ export function Dashboard(props: { links: LinkType[], stats: StatType[] }) {
     <h3 className="text-3xl font-medium text-gray-700">Dashboard</h3>
     <div className="mt-4">
       <div className="flex flex-wrap -mx-6">
-        <SimpleCard number={props.links.length} text={"Links"}/>
-        <SimpleCard number={totalClicks} text={"Total Clics"}/>
-      </div>
-    </div>
-    <div className="mt-4">
-      <div className="flex flex-wrap -mx-6">
-        <div className="w-full px-6 sm:w-1/2 xl:w-1/3">
-          <div className="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
-            <div className="p-3 bg-indigo-600 bg-opacity-75 rounded-full">
-            </div>
-            <div className="mx-5">
+        <div className="px-6 w-1/2 mt-1 ">
+          <div className="flex justify-center items-center px-5 py-6 bg-white rounded-md shadow-sm">
+            <div className="mx-5 ">
               <Line options={options} data={data}/>
             </div>
           </div>
         </div>
+        <div className="w-1/2 mt-1">
+          <SimpleCard number={props.links.length} text={"Links"}/>
+          <SimpleCard number={totalClicks} text={"Total Clics"}/>
+        </div>
       </div>
     </div>
-    <div className="mt-8"/>
-    <div className="flex flex-col mt-8">
+
+    <div className="flex flex-col">
       <div className="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div className="mb-5">
-          <h2 className="text-xl font-semibold leading-tight text-gray-700">Users</h2>
           <div className="flex flex-col mt-3 sm:flex-row justify-between">
             <div className="flex">
-              <div className="relative">
-              </div>
+              <h2 className="text-xl font-semibold leading-tight text-gray-700">Users</h2>
+
               <div className="relative">
                 <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
                 </div>

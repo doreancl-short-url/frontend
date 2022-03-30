@@ -4,8 +4,8 @@ type Props = {
 }
 
 export function SimpleCard({number, text}: Props) {
-  return <div className="w-full px-6 sm:w-1/2 xl:w-1/3">
-    <div className="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
+  return <div className="px-6 py-1 w-full">
+    <div className="flex items-center px-5 py-4 bg-white rounded-md shadow-sm">
       <div className="p-3 bg-indigo-600 bg-opacity-75 rounded-full">
         <svg className="w-8 h-8 text-white" viewBox="0 0 28 30" fill="none"
              xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,8 @@ export function SimpleCard({number, text}: Props) {
             fill="currentColor"/>
         </svg>
       </div>
-      <div className="mx-5"><h4 className="text-2xl font-semibold text-gray-700">{number}</h4>
+      <div className="mx-5">
+        <h4 className="text-2xl font-semibold text-gray-700">{number}</h4>
         <div className="text-gray-500">{text}</div>
       </div>
     </div>
