@@ -1,5 +1,5 @@
-import {GetStaticPaths, GetStaticProps} from "next";
-import {deleteLink, getAllPostsWithSlug, getPostAndMorePosts} from "../../lib/api";
+import {GetServerSideProps} from "next";
+import {deleteLink, getPostAndMorePosts} from "../../lib/api";
 import {useState} from "react";
 import {useRouter} from "next/router";
 import Form from "../../components/form";
@@ -54,7 +54,7 @@ const UpdateLink = ({slug, linkForm}: Props) => {
 
 export default UpdateLink
 
-export const getStaticProps: GetStaticProps = async ({params}) => {
+export const getServerSideProps: GetServerSideProps = async ({params}) => {
   const [data] = await getPostAndMorePosts(params?.slug as string)
   return {
     props: {
@@ -64,10 +64,3 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   }
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const allPosts = await getAllPostsWithSlug()
-  return {
-    paths: allPosts.map((link: LinkType) => `/link/${link._id}`) || [],
-    fallback: false,
-  }
-};

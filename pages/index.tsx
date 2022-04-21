@@ -2,6 +2,7 @@ import {getAllPosts, getAllStats} from '../lib/api'
 import {Content} from "../components/content";
 import {Dashboard} from "../components/dashboard";
 import {LinkType, StatType} from "../types/types";
+import {GetServerSideProps} from "next";
 
 type Props = {
   allLinks: LinkType[],
@@ -20,7 +21,7 @@ const Index = ({allLinks, allStats}: Props) => {
 
 export default Index
 
-export const getStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const [allLinks, err1] = await getAllPosts([])
   const [allStats, err2] = await getAllStats([])
   return {
