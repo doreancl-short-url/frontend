@@ -55,7 +55,7 @@ export function Dashboard(props: { links: LinkType[], stats: StatType[] }) {
     return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
   });
   const labels = dates.map((date) => {
-    return date.getMonth() + '-' + date.getDate();
+    return (date.getMonth() + 1) + '-' + date.getDate();
   })
 
   let dataset: any = {};
