@@ -9,14 +9,9 @@ import { OAuthConfig, OAuthUserConfig } from "next-auth/providers";
 // import AppleProvider from "next-auth/providers/apple"
 
 const scopes = [
-  "openid",
-  "email",
   "profile",
-  "https://www.googleapis.com/auth/userinfo.profile",
-  "https://www.googleapis.com/auth/userinfo.email",
-  "https://www.googleapis.com/auth/youtube.readonly",
-  "https://www.googleapis.com/auth/drive.appdata",
-  "https://www.googleapis.com/auth/gmail.readonly"
+  "https://www.googleapis.com/auth/gmail.readonly",
+  "https://www.googleapis.com/auth/gmail.metadata"
 ];
 
 const authorizationUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");

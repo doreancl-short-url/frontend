@@ -6,30 +6,31 @@ import { google } from "googleapis";
 
 const secret = process.env.SECRET;
 const clientId = process.env.GOOGLE_ID;
-const clientSecret = process.env.GOOGLE_SECRET;
+const format = 'metadata';
 
+const clientSecret = process.env.GOOGLE_SECRET;
 const simple = async (token: JWT, pageToken = '') => {
   const auth = new google.auth.OAuth2({
     clientId,
     clientSecret,
   });
+
   auth.setCredentials({
     access_token: token.access_token,
     refresh_token: token.refresh_token,
   });
-
   const gmail = google.gmail({ version: 'v1', auth: auth });
-  const la = await gmail.users.labels.list({ userId: 'me', });
+  const res1 = await gmail.users.messages.list({ userId: 'me' });
+  console.log(res1.data);
+  const res2 = await gmail.users.messages.get({
+    userId: 'me',
+    id: res1.data.messages[0].id,
+    format: format,
+    metadataHeaders: ['Date', 'Subject', 'From', 'To', 'Delivered-To']
+  });
+  console.log(res2.data);
+  console.log(res2.data.payload.headers);
 
-  const labels = la.data.labels;
-  if (labels.length) {
-    console.log('Labels:');
-    labels.forEach((label) => {
-      console.log(`- ${label.name}`);
-    });
-  } else {
-    console.log('No labels found.');
-  }
 };
 
 export default async function handler(req, res) {

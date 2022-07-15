@@ -7,3 +7,5 @@ https://github.com/eayoungs/react-django-login-example
 https://github.dev/wobsoriano/v-dashboard
 https://github.com/tailwindcomponents/dashboard
 https://github.dev/nextauthjs/next-auth-typescript-example
+
+https://github.com/nextauthjs/next-auth/issues/1162
