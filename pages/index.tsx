@@ -24,6 +24,7 @@ export default Index
 export const getServerSideProps: GetServerSideProps = async () => {
   const [allLinks, err1] = await getAllPosts([])
   const [allStats, err2] = await getAllStats([])
+
   return {
     props: { allLinks, allStats },
   }

@@ -4,9 +4,39 @@ import FacebookProvider from "next-auth/providers/facebook"
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 import TwitterProvider from "next-auth/providers/twitter"
+import { OAuthConfig, OAuthUserConfig } from "next-auth/providers";
 // import EmailProvider from "next-auth/providers/email"
 // import AppleProvider from "next-auth/providers/apple"
 
+const scopes = [
+  "openid",
+  "email",
+  "profile",
+  "https://www.googleapis.com/auth/userinfo.profile",
+  "https://www.googleapis.com/auth/userinfo.email",
+  "https://www.googleapis.com/auth/youtube.readonly",
+  "https://www.googleapis.com/auth/drive.appdata",
+  "https://www.googleapis.com/auth/gmail.readonly"
+];
+
+const authorizationUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+authorizationUrl.searchParams.set("prompt", "consent");
+authorizationUrl.searchParams.set("access_type", "offline");
+authorizationUrl.searchParams.set("response_type", "code");
+
+
+const config: OAuthUserConfig<any> = {
+  clientId: process.env.GOOGLE_ID,
+  clientSecret: process.env.GOOGLE_SECRET,
+  authorization: {
+    params: {
+      scope: scopes.join(" "),
+      prompt: "consent",
+      access_type: "offline",
+      response_type: "code"
+    }
+  },
+}
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
@@ -42,10 +72,7 @@ export default NextAuth({
       // @ts-ignore
       scope: "read:user",
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-    }),
+    GoogleProvider(config),
     TwitterProvider({
       clientId: process.env.TWITTER_ID,
       clientSecret: process.env.TWITTER_SECRET,
@@ -111,9 +138,24 @@ export default NextAuth({
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
     // async signIn({ user, account, profile, email, credentials }) { return true },
-    // async redirect({ url, baseUrl }) { return baseUrl },
-    // async session({ session, token, user }) { return session },
-    // async jwt({ token, user, account, profile, isNewUser }) { return token }
+    async signIn({ user, account, profile, email, credentials }) {
+      user.acces_token = account.access_token;
+      return true
+    },
+    async redirect({ url, baseUrl }) {
+      return baseUrl
+    },
+    async session({ session, token, user }) {
+      return session
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (account?.access_token) {
+        token.access_token = account?.access_token;
+        token.refresh_token = account?.refresh_token;
+      }
+      return token;
+    }
+
   },
 
   // Events are useful for logging

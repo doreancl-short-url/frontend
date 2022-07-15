@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Profile } from "./profile";
-import { signIn } from "next-auth/react";
+import { NavAuth } from "./nav-auth";
 
 export function TopNav() {
   return <header className="flex items-center justify-between px-6 py-4 bg-white border-b-4 border-indigo-600">
@@ -20,22 +20,7 @@ export function TopNav() {
     {/*<Search/>*/}
     <div className="flex items-center">
       <Profile/>
-      <div className="relative">
-        <>
-              <span>
-                You are not signed in
-              </span>
-          <a
-            href={`/api/auth/signin`}
-            onClick={(e) => {
-              e.preventDefault()
-              signIn()
-            }}
-          >
-            Sign in
-          </a>
-        </>
-      </div>
+      <NavAuth />
     </div>
   </header>;
 }
